@@ -2,7 +2,7 @@
 A horse racing simulation built with Vue.js, featuring animated races, dynamic schedules, and sequential result display. 🏇
 
 ## 🛠️ Özellikler
-- At Listesi: 20 benzersiz at oluşturulur.
-- Yarış Planı: 6 turluk bir yarış düzenlenir.
-- Animasyonlu Yarış: Atlar görsel olarak hareket eder.
-- Yarış Sonuçları: Her turun sonucu sırasıyla görüntülenir.
+- Horse List: 20 unique horses are created.
+- Race Plan: A 6-lap race is held.
+- Animated Race: Horses move visually.
+- Race Results: The results of each lap are displayed in order.
