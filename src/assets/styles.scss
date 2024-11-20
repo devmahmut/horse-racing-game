@@ -1,0 +1,13 @@
+.horse {
+    animation: run 5s linear;
+  }
+  
+  @keyframes run {
+    from {
+      left: 0;
+    }
+    to {
+      left: 100%;
+    }
+  }
+  
