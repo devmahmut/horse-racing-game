@@ -32,6 +32,8 @@ import Results from './components/Results.vue';
   grid-template-columns: 1fr 2fr 1.5fr;
   gap: 20px;
   padding: 20px;
+  max-height: 100dvh;
+  overflow: hidden;
 }
 
 /**
@@ -45,6 +47,8 @@ import Results from './components/Results.vue';
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 75vh;
 }
 
 
@@ -59,6 +63,9 @@ import Results from './components/Results.vue';
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 75vh;
 }
 
 /**
@@ -77,6 +84,8 @@ import Results from './components/Results.vue';
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 75vh;
 }
 
 /**

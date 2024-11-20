@@ -10,6 +10,15 @@ const currentRound = computed(() => {
     return round ? round.horses : [];
 });
 const isRaceRunning = computed(() => store.state.isRaceRunning);
+
+const generateHorses = () => {
+    store.dispatch('generateHorses');
+};
+
+const toggleRace = () => {
+    store.dispatch('toggleRace');
+};
+
 </script>
 
 <template>
@@ -25,7 +34,12 @@ const isRaceRunning = computed(() => store.state.isRaceRunning);
             </div>
         </div>
         <div v-else>
-            <p>No race to display. Click Start to begin the race!</p>
+            <p>There are no races to show.
+                <button @click="generateHorses">
+                    Generate your horses
+                </button>,
+                and start racing!
+            </p>
         </div>
     </div>
 </template>
@@ -71,7 +85,19 @@ const isRaceRunning = computed(() => store.state.isRaceRunning);
     animation-iteration-count: infinite;
 }
 
+p {
+    text-align: center;
+}
 
+button {
+    border: none;
+    background: none;
+    font-weight: bold;
+    font-size: medium;
+    cursor: pointer;
+    padding: 0;
+    color: #ff0000;
+}
 
 @keyframes run {
     0% {

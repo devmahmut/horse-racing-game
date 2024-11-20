@@ -4,6 +4,11 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 const raceSchedule = computed(() => store.state.raceSchedule);
+const horses = computed(() => store.state.horses);
+const getHorseColor = (id) => {
+    const horse = horses.value.find(h => h.id === id);
+    return horse ? horse.color : '#000';
+};
 </script>
 
 <template>
@@ -15,8 +20,8 @@ const raceSchedule = computed(() => store.state.raceSchedule);
                     <span>{{ round.round }}st Lap</span>
                     <span>Distance: {{ round.distance }}m</span>
                 </div>
-                <div class="horse-name" v-for="horse in round.horses" :key="horse.position">
-                    <div :style="{ color: horse.color }">{{ horse.position }}</div>
+                <div class="horse-name" v-for="horse in round.horses" :key="horse.id">
+                    <div :style="{ color: getHorseColor(horse.id) }">{{ horse.position }}</div>
                     <span>{{ horse.name }}</span>
                 </div>
             </li>
@@ -54,7 +59,15 @@ li {
 }
 
 li+li {
-    margin-top: 1rem;
+    margin-top: 2rem;
+}
+
+.race-round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid;
 }
 
 .horse-name {

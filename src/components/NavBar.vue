@@ -14,7 +14,10 @@ const toggleRace = () => {
 
 <template>
     <div class="nav-bar">
-        <h2>Horse Racing</h2>
+        <h2>
+            <img src="/src/assets/horse-images/horse.png" width="36px" alt="">
+            Horse Racing
+        </h2>
         <div class="nav-btn-group">
             <button @click="generateHorses">Generate Horses</button>
             <button @click="toggleRace" :disabled="!store.state.isHorsesGenerated">
@@ -38,6 +41,12 @@ const toggleRace = () => {
 
 h2 {
     color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+h2 img {
+    margin-right: 10px;
 }
 
 .nav-btn-group {

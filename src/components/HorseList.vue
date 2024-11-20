@@ -3,9 +3,6 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 
-/**
- * 
- */
 const store = useStore();
 const horses = computed(() => store.state.horses);
 </script>
