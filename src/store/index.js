@@ -157,7 +157,7 @@ const store = createStore({
         distance: 1200 + i * 200,
         horses: [...state.horses]
           .sort(() => Math.random() - 0.5)
-          .slice(0, 20)
+          .slice(0, 10)
           .map((horse, position) => ({
             position: position + 1,
             id: horse.id,
