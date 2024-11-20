@@ -137,7 +137,7 @@ const store = createStore({
         id: index + 1,
         name,
         condition: Math.floor(Math.random() * 100) + 1,
-        speed: Math.floor(Math.random() * 10) + 5, // Hız 5-15 arası (kondisyona göre değiştirilebilir)
+        speed: Math.floor(Math.random() * 10) + 5, 
         color: `hsl(${index * 18}, 70%, 50%)`,
       }));
 
@@ -155,7 +155,7 @@ const store = createStore({
     generateRaceSchedule({ commit, state }) {
       const schedule = Array.from({ length: 6 }, (_, i) => ({
         round: i + 1,
-        distance: 1200 + i * 200, // Mesafe her turda artıyor
+        distance: 1200 + i * 200,
         horses: [...state.horses]
           .sort(() => Math.random() - 0.5)
           .slice(0, 10)
@@ -164,7 +164,7 @@ const store = createStore({
             id: horse.id,
             name: horse.name,
             color: horse.color,
-            speed: horse.speed, // Hız bilgisi ekleniyor
+            speed: horse.speed,
           })),
       }));
       commit('setRaceSchedule', schedule);
@@ -208,11 +208,11 @@ const store = createStore({
           commit('setCurrentRound', state.currentRound + 1);
 
           if (state.currentRound <= state.raceSchedule.length) {
-            dispatch('runRace'); // Bir sonraki tura geç
+            dispatch('runRace'); 
           } else {
-            commit('setRaceRunning', false); // Yarış bitti
+            commit('setRaceRunning', false); 
           }
-        }, raceDuration * 1000); // Yarış süresi saniyeye çevriliyor
+        }, raceDuration * 1000); 
       }
     },
 
