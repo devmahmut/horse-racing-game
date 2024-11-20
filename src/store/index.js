@@ -5,7 +5,7 @@ const store = createStore({
     /**
      * Stores all horse information.
      */
-    horses: [], 
+    horses: [],
 
     /**
      * Stores the race schedule 
@@ -17,7 +17,7 @@ const store = createStore({
      * Stores the results of 
      * complated rounds.
      */
-    results: [], 
+    results: [],
 
     /**
      * Indicates whether the race 
@@ -29,19 +29,19 @@ const store = createStore({
      * Tracks the current round 
      * number.
      */
-    currentRound: 1, 
+    currentRound: 1,
 
     /**
      * Holds the interval function 
      * for the race
      */
-    raceInterval: null, 
+    raceInterval: null,
 
     /**
      * Indicates whether the horses 
      * have ben generated.
      */
-    isHorsesGenerated: false, 
+    isHorsesGenerated: false,
   },
   mutations: {
     /**
@@ -137,6 +137,7 @@ const store = createStore({
         id: index + 1,
         name,
         condition: Math.floor(Math.random() * 100) + 1,
+        speed: Math.floor(Math.random() * 10) + 5, // Hız 5-15 arası (kondisyona göre değiştirilebilir)
         color: `hsl(${index * 18}, 70%, 50%)`,
       }));
 
@@ -154,7 +155,7 @@ const store = createStore({
     generateRaceSchedule({ commit, state }) {
       const schedule = Array.from({ length: 6 }, (_, i) => ({
         round: i + 1,
-        distance: 1200 + i * 200,
+        distance: 1200 + i * 200, // Mesafe her turda artıyor
         horses: [...state.horses]
           .sort(() => Math.random() - 0.5)
           .slice(0, 10)
@@ -163,13 +164,12 @@ const store = createStore({
             id: horse.id,
             name: horse.name,
             color: horse.color,
+            speed: horse.speed, // Hız bilgisi ekleniyor
           })),
       }));
       commit('setRaceSchedule', schedule);
     },
-    
-
-    /**
+/**
      * Simulates the current round 
      * and updates the rankings.
      * adds the completed round 
@@ -177,40 +177,44 @@ const store = createStore({
      * @param {Object} param0 
      * @returns 
      */
-    runRace({ commit, state }) {
+    runRace({ commit, state, dispatch }) {
       if (!state.isRaceRunning || state.currentRound > state.raceSchedule.length) {
         return;
       }
-    
+
       const currentRoundData = state.raceSchedule.find(r => r.round === state.currentRound);
-    
+
       if (currentRoundData) {
-        const horsesWithPerformance = currentRoundData.horses.map(horse => ({
-          ...horse,
-          performance: horse.position + Math.random() * 10 - 5,
-        }));
-    
-        const sortedHorses = horsesWithPerformance
-          .sort((a, b) => a.performance - b.performance)
-          .map((horse, index) => ({
-            ...horse,
-            position: index + 1,
-          }));
-    
-        const result = {
-          round: currentRoundData.round,
-          horses: sortedHorses,
-        };
-    
-        commit('addRaceResult', result);
-        commit('setCurrentRound', state.currentRound + 1);
-      }
-    
-      if (state.currentRound > state.raceSchedule.length) {
-        commit('setRaceRunning', false);
+        const raceDuration = Math.max(...currentRoundData.horses.map(h => currentRoundData.distance / h.speed));
+        
+        setTimeout(() => {
+          const sortedHorses = currentRoundData.horses
+            .map(horse => ({
+              ...horse,
+              performance: horse.position + Math.random() * 10 - 5,
+            }))
+            .sort((a, b) => a.performance - b.performance)
+            .map((horse, index) => ({
+              ...horse,
+              position: index + 1,
+            }));
+
+          const result = {
+            round: currentRoundData.round,
+            horses: sortedHorses,
+          };
+
+          commit('addRaceResult', result);
+          commit('setCurrentRound', state.currentRound + 1);
+
+          if (state.currentRound <= state.raceSchedule.length) {
+            dispatch('runRace'); // Bir sonraki tura geç
+          } else {
+            commit('setRaceRunning', false); // Yarış bitti
+          }
+        }, raceDuration * 1000); // Yarış süresi saniyeye çevriliyor
       }
     },
-    
 
     /**
      * Starts or stops the race.
@@ -223,15 +227,7 @@ const store = createStore({
 
       if (newStatus) {
         commit('setCurrentRound', 1);
-
-        state.raceInterval = setInterval(() => {
-          const currentRoundData = state.raceSchedule.find(r => r.round === state.currentRound);
-          if (state.isRaceRunning && currentRoundData) {
-            dispatch('runRace');
-          } else {
-            clearInterval(state.raceInterval);
-          }
-        }, 8000);
+        dispatch('runRace');
       } else {
         clearInterval(state.raceInterval);
       }

@@ -27,7 +27,7 @@ const toggleRace = () => {
             <div class="start-door">{{ horse.position }}</div>
             <div class="race-line">
                 <div class="racehorse" :class="{ running: isRaceRunning }" :style="{
-                    animationDuration: `${8 - horse.position * 0.5}s`,
+                    animationDuration: `${store.state.raceSchedule.find(r => r.round === store.state.currentRound).distance / horse.speed}s`,
                 }">
                     <img src="/src/assets/horse-images/horse.svg" width="64" alt="">
                 </div>
@@ -43,8 +43,6 @@ const toggleRace = () => {
         </div>
     </div>
 </template>
-
-
 
 <style scoped>
 .track-row {
@@ -82,7 +80,8 @@ const toggleRace = () => {
 .racehorse.running {
     animation-name: run;
     animation-timing-function: linear;
-    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    /* Animasyon tamamlandığında durdur */
 }
 
 p {
